@@ -14,7 +14,7 @@ public class TarefasServices {
 
     private TarefasRepository tarefasRepository;
 
-    private Tarefas criarOuAtualizar(Tarefas tarefa) {
+    public Tarefas criarOuAtualizarTarefa(Tarefas tarefa) {
         return tarefasRepository.save(tarefa);
     }
 

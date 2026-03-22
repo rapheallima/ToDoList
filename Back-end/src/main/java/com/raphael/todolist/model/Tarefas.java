@@ -5,10 +5,10 @@ import com.raphael.todolist.enums.TarefasStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Data
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tarefas {
@@ -27,12 +27,14 @@ public class Tarefas {
     private TarefasStatusEnum status;
 
     @ManyToOne
-    private Usuario usuario_id;
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 
     private java.time.LocalDate dataCriacao;
 
+    @PrePersist
     protected void aoCriarTarefa() {
-        this.dataCriacao = java.time.LocalDate.now();
+        this.dataCriacao = LocalDate.now();
     }
 
 }
