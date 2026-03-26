@@ -1,5 +1,6 @@
 package com.raphael.todolist.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,7 +20,11 @@ public class Usuario {
 
     private String nome;
     private String email;
+
+    @JsonIgnore
     private String cpf;
+
+    @JsonIgnore
     private String senha;
 
 }

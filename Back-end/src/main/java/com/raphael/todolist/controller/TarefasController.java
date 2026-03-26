@@ -3,6 +3,7 @@ package com.raphael.todolist.controller;
 import com.raphael.todolist.model.Tarefas;
 import com.raphael.todolist.services.TarefasServices;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TarefasController {
 
-    private TarefasServices tarefasServices;
+    private final TarefasServices tarefasServices;
 
     @GetMapping
     public List<Tarefas> buscar() {
@@ -25,15 +26,15 @@ public class TarefasController {
         return tarefasServices.buscarPorId(id).orElse(null);
     }
 
-    @PostMapping
-    public Tarefas criar(@RequestBody Tarefas tarefas) {
-        return tarefasServices.criarOuAtualizarTarefa(tarefas);
+    @PostMapping("/usuarios/{usuarioId}")
+    public ResponseEntity<Tarefas> criar(@RequestBody Tarefas tarefa, @PathVariable Long usuarioId) {
+        return ResponseEntity.status(201).body(tarefasServices.criarTarefaVinculada(tarefa, usuarioId));
     }
 
-    @PutMapping("/{id}")
-    public Tarefas atualizar(@PathVariable Long id, @RequestBody Tarefas tarefas) {
-        tarefas.setId(id);
-        return tarefasServices.criarOuAtualizarTarefa(tarefas);
+    @PutMapping("/{id}/usuarios/{usuarioId}")
+    public Tarefas atualizar(@PathVariable Long id, @RequestBody Tarefas tarefa, @PathVariable Long usuarioId) {
+        tarefa.setId(id);
+        return tarefasServices.criarTarefaVinculada(tarefa, usuarioId);
     }
 
     @DeleteMapping("/{id}")

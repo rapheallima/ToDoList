@@ -1,7 +1,9 @@
 package com.raphael.todolist.services;
 
 import com.raphael.todolist.model.Tarefas;
+import com.raphael.todolist.model.Usuario;
 import com.raphael.todolist.repository.TarefasRepository;
+import com.raphael.todolist.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +14,16 @@ import java.util.Optional;
 @AllArgsConstructor
 public class TarefasServices {
 
-    private TarefasRepository tarefasRepository;
+    private final TarefasRepository tarefasRepository;
+    private final UsuarioRepository usuarioRepository;
+    ;
 
-    public Tarefas criarOuAtualizarTarefa(Tarefas tarefa) {
+    public Tarefas criarTarefaVinculada(Tarefas tarefa, Long usuarioId) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId).orElseThrow(() -> new RuntimeException("Usuário dono da tarefa não encontrado!"));
+
+        tarefa.setUsuario(usuario);
+
         return tarefasRepository.save(tarefa);
     }
 
