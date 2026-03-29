@@ -23,7 +23,8 @@ public class UsuarioController {
 
     @GetMapping("/{usuarioId}")
     public ResponseEntity<UsuarioDTO> buscarUsuarioPorId(@PathVariable Long usuarioId) {
-        return usuarioServices.buscarUsuarioPorId(usuarioId).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+        UsuarioDTO dto = usuarioServices.buscarUsuarioPorId(usuarioId);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
@@ -32,7 +33,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{usuarioId}")
-    public ResponseEntity<UsuarioDTO> deletarPorId(@PathVariable Long usuarioId) {
+    public ResponseEntity<Void> deletarPorId(@PathVariable Long usuarioId) {
         usuarioServices.deletarUsuarioPorId(usuarioId);
         return ResponseEntity.noContent().build();
     }

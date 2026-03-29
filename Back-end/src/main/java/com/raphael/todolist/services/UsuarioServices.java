@@ -1,6 +1,7 @@
 package com.raphael.todolist.services;
 
 import com.raphael.todolist.DTO.UsuarioDTO;
+import com.raphael.todolist.exception.RecursoNaoEncontradoException;
 import com.raphael.todolist.model.Usuario;
 import com.raphael.todolist.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
@@ -29,16 +30,17 @@ public class UsuarioServices {
         return usuarios.stream().map(UsuarioDTO::fromEntity).toList();
     }
 
-    public Optional<UsuarioDTO> buscarUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id).map(UsuarioDTO::fromEntity);
+    public UsuarioDTO buscarUsuarioPorId(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Usuário com ID " + id + " não encontrado!"));
+        return UsuarioDTO.fromEntity(usuario);
     }
 
-    public ResponseEntity<UsuarioDTO> deletarUsuarioPorId(Long id) {
+    public void deletarUsuarioPorId(Long id) {
         if (!usuarioRepository.existsById(id)) {
-            throw new RuntimeException("Usuário não encontrado!");
+            throw new RecursoNaoEncontradoException("Usuário não encontrado!");
         }
         usuarioRepository.deleteById(id);
-        return null;
     }
+
 
 }
