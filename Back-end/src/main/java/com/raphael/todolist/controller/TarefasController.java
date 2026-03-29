@@ -23,7 +23,7 @@ public class TarefasController {
 
     @GetMapping("/{id}")
     public Tarefas buscarPorId(@PathVariable Long id) {
-        return tarefasServices.buscarPorId(id).orElse(null);
+        return tarefasServices.buscarPorId(id);
     }
 
     @PostMapping("/usuarios/{usuarioId}")

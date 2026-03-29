@@ -1,5 +1,6 @@
 package com.raphael.todolist.services;
 
+import com.raphael.todolist.exception.RecursoNaoEncontradoException;
 import com.raphael.todolist.model.Tarefas;
 import com.raphael.todolist.model.Usuario;
 import com.raphael.todolist.repository.TarefasRepository;
@@ -31,13 +32,13 @@ public class TarefasServices {
         return tarefasRepository.findAll();
     }
 
-    public Optional<Tarefas> buscarPorId(Long id) {
-        return tarefasRepository.findById(id);
+    public Tarefas buscarPorId(Long id) {
+        return tarefasRepository.findById(id).orElseThrow(() -> new RecursoNaoEncontradoException("Tarefa com ID "+ id +" não encontrada!"));
     }
 
     public void deletarPorId(Long id) {
         if (!tarefasRepository.existsById(id)) {
-            throw new RuntimeException("Tarefa não encontrada");
+            throw new RecursoNaoEncontradoException("Tarefa com ID "+ id +" não encontrada!");
         }
         tarefasRepository.deleteById(id);
     }
