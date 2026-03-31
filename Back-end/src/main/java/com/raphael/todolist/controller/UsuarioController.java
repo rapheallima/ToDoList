@@ -3,6 +3,7 @@ package com.raphael.todolist.controller;
 import com.raphael.todolist.DTO.UsuarioDTO;
 import com.raphael.todolist.model.Usuario;
 import com.raphael.todolist.services.UsuarioServices;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class UsuarioController {
     private final UsuarioServices usuarioServices;
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> criar(@RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioDTO> criar(@Valid @RequestBody Usuario usuario) {
         return ResponseEntity.ok(usuarioServices.salvar(usuario));
     }
 

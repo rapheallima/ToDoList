@@ -2,6 +2,7 @@ package com.raphael.todolist.controller;
 
 import com.raphael.todolist.model.Tarefas;
 import com.raphael.todolist.services.TarefasServices;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,12 +28,12 @@ public class TarefasController {
     }
 
     @PostMapping("/usuarios/{usuarioId}")
-    public ResponseEntity<Tarefas> criar(@RequestBody Tarefas tarefa, @PathVariable Long usuarioId) {
+    public ResponseEntity<Tarefas> criar(@Valid @RequestBody Tarefas tarefa, @PathVariable Long usuarioId) {
         return ResponseEntity.status(201).body(tarefasServices.criarTarefaVinculada(tarefa, usuarioId));
     }
 
     @PutMapping("/{id}/usuarios/{usuarioId}")
-    public Tarefas atualizar(@PathVariable Long id, @RequestBody Tarefas tarefa, @PathVariable Long usuarioId) {
+    public Tarefas atualizar(@PathVariable Long id,@Valid @RequestBody Tarefas tarefa, @PathVariable Long usuarioId) {
         tarefa.setId(id);
         return tarefasServices.criarTarefaVinculada(tarefa, usuarioId);
     }
