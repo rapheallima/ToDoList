@@ -3,6 +3,7 @@ package com.raphael.todolist.model;
 import com.raphael.todolist.enums.TarefasPrioridadeEnum;
 import com.raphael.todolist.enums.TarefasStatusEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -17,7 +18,10 @@ public class Tarefas {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O título não pode estar em branco")
     private String titulo;
+
+    @NotBlank(message = "A descrição é obrigatória")
     private String descricao;
 
     @Enumerated(EnumType.STRING)
