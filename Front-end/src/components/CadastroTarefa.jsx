@@ -42,35 +42,69 @@ function CadastroTarefa() {
     };
 
     return (
-        <div style={{ padding: '20px', border: '1px solid #ccc', marginTop: '20px' }}>
-            <h2>Nova Tarefa</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="titulo" placeholder="Título da Tarefa" onChange={handleChange} required />
-                <textarea name="descricao" placeholder="Descrição" onChange={handleChange} />
+        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mt-10 transition-all hover:shadow-2xl">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+                <span className="w-2 h-8 bg-green-500 rounded-full"></span>
+                Nova Tarefa
+            </h2>
 
-                <select name="prioridade" onChange={handleChange}>
-                    <option value="BAIXA">Baixa</option>
-                    <option value="MEDIA">Média</option>
-                    <option value="ALTA">Alta</option>
-                </select>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <input
+                        className="p-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                        type="text" name="titulo" placeholder="Título da Tarefa" onChange={handleChange} required
+                    />
 
-                <select name="status" onChange={handleChange}>
-                    <option value="PENDENTE">Pendente</option>
-                    <option value="EM_ANDAMENTO">Em Andamento</option>
-                    <option value="CONCLUIDA">Concluída</option>
-                </select>
+                    <select
+                        name="usuarioId"
+                        className="p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                        onChange={handleChange} required
+                    >
+                        <option value="">Selecione o Responsável</option>
+                        {usuarios.map(user => (
+                            <option key={user.id} value={user.id}>{user.nome}</option>
+                        ))}
+                    </select>
+                </div>
 
-                <select name="usuarioId" onChange={handleChange} required>
-                    <option value="">Selecione o Responsável</option>
-                    {usuarios.map(user => (
-                        <option key={user.id} value={user.id}>{user.nome}</option>
-                    ))}
-                </select>
+                <textarea
+                    name="descricao"
+                    className="w-full p-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                    placeholder="Descrição detalhada da tarefa..."
+                    rows="3"
+                    onChange={handleChange}
+                />
 
-                <button type="submit">Criar Tarefa</button>
+                <div className="flex gap-4">
+                    <select name="prioridade" className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500" onChange={handleChange}>
+                        <option value="BAIXA">Prioridade: Baixa</option>
+                        <option value="MEDIA">Prioridade: Média</option>
+                        <option value="ALTA">Prioridade: Alta</option>
+                    </select>
+
+                    {/* Campo de Status */}
+                    <select
+                        name="status"
+                        className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500"
+                        onChange={handleChange}
+                    >
+                        <option value="PENDENTE">Status: Pendente</option>
+                        <option value="EM_ANDAMENTO">Status: Em Andamento</option>
+                        <option value="CONCLUIDA">Status: Concluída</option>
+                    </select>
+
+
+                    <button
+                        type="submit"
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md shadow-green-200 transition-all active:scale-95"
+                    >
+                        Criar Tarefa
+                    </button>
+                </div>
             </form>
         </div>
     );
+
 }
 
 export default CadastroTarefa;
