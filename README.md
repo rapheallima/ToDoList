@@ -58,3 +58,9 @@ Bem-vindo ao meu projeto de gerenciamento de tarefas! Esta é uma aplicação **
 *  Implementação de Design Systems com Tailwind para padronização visual.
 *  Gerenciamento de estados complexos em formulários.
 *  Desenvolvido por **Raphael de Lima 🚀**
+
+ ---
+
+ ## Prévia 
+
+ ![preview](https://github.com/user-attachments/assets/f627a318-b799-4925-bbf9-cc9b02c88237)
