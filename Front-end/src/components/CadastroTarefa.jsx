@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import api from '../services/api';
 
-function CadastroTarefa() {
+function CadastroTarefa({ onTarefaCriada }) {
     const [usuarios, setUsuarios] = useState([]); // Para preencher o Select
     const [tarefa, setTarefa] = useState({
         titulo: '',
         descricao: '',
-        prioridade: '', // Valor padrão do seu Enum
-        status: '',    // Valor padrão do seu Enum
-        usuarioId: ''        // O ID do dono
+        prioridade: '',
+        status: '',
+        usuarioId: ''
     });
 
     // Busca os usuários no Back-end assim que a tela carrega
@@ -26,14 +26,17 @@ function CadastroTarefa() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // No seu Service do Back, você configurou para receber (tarefa, usuarioId)
-            // Vamos enviar o usuarioId como parâmetro na URL ou no corpo, dependendo do seu Controller
+
             await api.post(`/tarefas/usuarios/${tarefa.usuarioId}`, {
                 titulo: tarefa.titulo,
                 descricao: tarefa.descricao,
                 prioridade: tarefa.prioridade,
                 status: tarefa.status
             });
+
+            if (onTarefaCriada) {
+                onTarefaCriada(); // Notifica o App para recarregar a lista
+            }
             alert('Tarefa criada com sucesso!');
         } catch (error) {
             console.error("Erro ao criar tarefa", error);
