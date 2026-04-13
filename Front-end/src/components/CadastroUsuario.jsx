@@ -46,7 +46,7 @@ function CadastroUsuario() {
 
                 <button
                     type="submit"
-                    className="col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md shadow-blue-200 transition-all active:scale-95"
+                    className="col-span-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-md shadow-blue-200 transition-all active:scale-95 hover:cursor-pointer"
                 >
                     Finalizar Cadastro
                 </button>

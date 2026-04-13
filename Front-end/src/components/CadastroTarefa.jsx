@@ -60,7 +60,7 @@ function CadastroTarefa({ onTarefaCriada }) {
 
                     <select
                         name="usuarioId"
-                        className="p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                        className="p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 transition-all hover:cursor-pointer"
                         onChange={handleChange} required
                     >
                         <option value="">Selecione o Responsável</option>
@@ -79,7 +79,7 @@ function CadastroTarefa({ onTarefaCriada }) {
                 />
 
                 <div className="flex gap-4">
-                    <select name="prioridade" className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500" onChange={handleChange}>
+                    <select name="prioridade" className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 hover:cursor-pointer" onChange={handleChange}>
                         <option value="BAIXA">Prioridade: Baixa</option>
                         <option value="MEDIA">Prioridade: Média</option>
                         <option value="ALTA">Prioridade: Alta</option>
@@ -88,7 +88,7 @@ function CadastroTarefa({ onTarefaCriada }) {
                     {/* Campo de Status */}
                     <select
                         name="status"
-                        className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500"
+                        className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 hover:cursor-pointer"
                         onChange={handleChange}
                     >
                         <option value="PENDENTE">Status: Pendente</option>
@@ -99,7 +99,7 @@ function CadastroTarefa({ onTarefaCriada }) {
 
                     <button
                         type="submit"
-                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md shadow-green-200 transition-all active:scale-95"
+                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md shadow-green-200 transition-all active:scale-95 hover:cursor-pointer"
                     >
                         Criar Tarefa
                     </button>
