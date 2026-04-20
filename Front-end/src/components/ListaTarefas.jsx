@@ -7,7 +7,7 @@ function ListaTarefas() {
     const handleDelete = async (id) => {
         try {
             await api.delete(`/tarefas/${id}`);
-            carregarTarefas(); // Recarrega a lista após exclusão
+            carregarTarefas();
         } catch (error) {
             console.error("Erro ao excluir tarefa:", error);
             alert("Erro ao excluir tarefa.");
@@ -37,6 +37,23 @@ function ListaTarefas() {
         }
     };
 
+    const handleToggleStatus = async (tarefa) => {
+
+        try {
+            const novoStatus = tarefa.status === 'PENDENTE' ? 'CONCLUIDA' : 'PENDENTE';
+            const tarefaAtualizada = {
+                ...tarefa,
+                status: novoStatus
+            };
+
+            await api.put(`/tarefas/${tarefa.id}/usuarios/${tarefa.usuario.id}`, tarefaAtualizada);
+
+            carregarTarefas();
+        } catch (error) {
+            console.error("Erro ao atualizar status", error);
+        }
+    };
+
 
     return (
         <div className="mt-10">
@@ -44,10 +61,22 @@ function ListaTarefas() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {tarefas.map(tarefa => (<div key={tarefa.id} className={`bg-white p-5 rounded-xl shadow-md border-l-8 ${getPrioridadeColor(tarefa.prioridade)} transition-transform hover:scale-105`}>
                     <div className="flex justify-between items-start mb-2">
-                        <h3 className="font-bold text-lg text-gray-800">{tarefa.titulo}</h3>
+                        <h3 className={`font-bold text-lg ${tarefa.status === 'CONCLUIDA' ? 'line-through text-gray-400' : 'text-gray-800'}`}>
+                            {tarefa.titulo}
+                        </h3>
                         <span className="text-xs font-bold px-2 py-1 rounded bg-gray-100 text-gray-600">
                             {tarefa.status ? tarefa.status.replace('_', ' ') : 'SEM STATUS'}
                         </span>
+                        <button onClick={() => handleToggleStatus(tarefa)} className={`p-1 rounded-lg transition-all duration-300 ${tarefa.status === 'CONCLUIDA'
+                            ? 'text-green-600 bg-green-50 hover:bg-green-100 hover:cursor-pointer'
+                            : 'text-gray-400 hover:text-green-500 hover:bg-green-50 hover:cursor-pointer'
+                            }`}
+
+                            title={tarefa.status === 'CONCLUIDA' ? "Reabrir tarefa" : "Concluir tarefa"}>
+                            <svg xmlns="http://w3.org" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </button>
                         <button
                             onClick={() => handleDelete(tarefa.id)}
                             className="text-gray-400 hover:text-red-500 transition-colors duration-300 p-1 rounded-lg hover:bg-red-50"

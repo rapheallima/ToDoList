@@ -1,7 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
 
-function CadastroUsuario() {
+function CadastroUsuario({ onUsuarioCriado }) {
     const [usuario, setUsuario] = useState({ nome: "", email: "", cpf: "", senha: "" });
 
     const handleChange = (e) => {
@@ -14,6 +14,9 @@ function CadastroUsuario() {
         try {
             await api.post("/usuarios", usuario);
             alert("Usuário cadastrado com sucesso!");
+
+            if (onUsuarioCriado) onUsuarioCriado();
+
         } catch (error) {
             console.error("Erro ao cadastrar usuário:", error);
             alert("Erro ao cadastrar usuário.");

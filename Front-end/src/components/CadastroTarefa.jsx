@@ -6,17 +6,22 @@ function CadastroTarefa({ onTarefaCriada }) {
     const [tarefa, setTarefa] = useState({
         titulo: '',
         descricao: '',
-        prioridade: '',
-        status: '',
+        prioridade: 'BAIXA',
+        status: 'PENDENTE',
         usuarioId: ''
     });
 
     // Busca os usuários no Back-end assim que a tela carrega
     useEffect(() => {
+        console.log("Buscando usuários do banco...");
         api.get('/usuarios')
-            .then(response => setUsuarios(response.data))
-            .catch(err => console.error("Erro ao carregar usuários", err));
-    }, []);
+            .then(response => {
+                console.log("Usuários encontrados:", response.data);
+                setUsuarios(response.data);
+            })
+            .catch(err => console.error("Erro ao buscar usuários", err));
+    }, []); // O array vazio aqui está certo porque a KEY no App.jsx já cuida do refresh
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,22 +30,26 @@ function CadastroTarefa({ onTarefaCriada }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!tarefa.usuarioId || tarefa.usuarioId === "") {
+            alert("ERRO: Você precisa selecionar um responsável na lista!");
+            return;
+        }
+
+        const objetoParaEnviar = {
+            titulo: tarefa.titulo,
+            descricao: tarefa.descricao,
+            prioridade: tarefa.prioridade,
+            status: tarefa.status
+        };
+
         try {
-
-            await api.post(`/tarefas/usuarios/${tarefa.usuarioId}`, {
-                titulo: tarefa.titulo,
-                descricao: tarefa.descricao,
-                prioridade: tarefa.prioridade,
-                status: tarefa.status
-            });
-
-            if (onTarefaCriada) {
-                onTarefaCriada(); // Notifica o App para recarregar a lista
-            }
+            await api.post(`/tarefas/usuarios/${tarefa.usuarioId}`, objetoParaEnviar);
             alert('Tarefa criada com sucesso!');
+            if (onTarefaCriada) onTarefaCriada();
         } catch (error) {
-            console.error("Erro ao criar tarefa", error);
-            alert('Erro ao salvar tarefa. Verifique o console.');
+            console.error("Erro detalhado:", error.response?.data);
+            alert('Erro 400: Verifique se os nomes dos Enums no Java batem com o Front!');
         }
     };
 
@@ -61,12 +70,20 @@ function CadastroTarefa({ onTarefaCriada }) {
                     <select
                         name="usuarioId"
                         className="p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 transition-all hover:cursor-pointer"
+                        value={tarefa.usuarioId}
                         onChange={handleChange} required
                     >
                         <option value="">Selecione o Responsável</option>
-                        {usuarios.map(user => (
-                            <option key={user.id} value={user.id}>{user.nome}</option>
-                        ))}
+                        {usuarios && usuarios.map((user) => {
+                            if (user.id) {
+                                return (
+                                    <option key={user.id} value={user.id}>
+                                        {user.nome}
+                                    </option>
+                                );
+                            }
+                            return null;
+                        })}
                     </select>
                 </div>
 
@@ -85,7 +102,6 @@ function CadastroTarefa({ onTarefaCriada }) {
                         <option value="ALTA">Prioridade: Alta</option>
                     </select>
 
-                    {/* Campo de Status */}
                     <select
                         name="status"
                         className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 hover:cursor-pointer"
