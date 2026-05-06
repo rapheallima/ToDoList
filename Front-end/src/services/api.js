@@ -1,7 +1,43 @@
 import axios from "axios";
+import { mockApi } from "./mockApi";
 
-const api = axios.create({
+const IS_MOCK = true; // Mudar para false para usar a API real
+
+
+const realApi = axios.create({
     baseURL: 'http://localhost:8080'
 });
+
+// Criamos um objeto que "imita" o axios, mas decide qual usar
+const api = {
+    get: (url) => IS_MOCK ? (url === '/usuarios' ? mockApi.getUsuarios() : mockApi.getTarefas()) : realApi.get(url),
+
+    post: (url, data) => {
+        if (IS_MOCK) {
+            if (url.includes('/usuarios')) return mockApi.postUsuario(data);
+            // Lógica para pegar o ID do usuário da URL /tarefas/usuarios/ID
+            const parts = url.split('/');
+            const userId = parts[parts.length - 1];
+            return mockApi.postTarefa(data, userId);
+        }
+        return realApi.post(url, data);
+    },
+
+    put: (url, data) => {
+        if (IS_MOCK) {
+            const id = parseInt(url.split('/')[2]);
+            return mockApi.putTarefa(id, data);
+        }
+        return realApi.put(url, data);
+    },
+
+    delete: (url) => {
+        if (IS_MOCK) {
+            const id = parseInt(url.split('/')[2]);
+            return mockApi.deleteTarefa(id);
+        }
+        return realApi.delete(url);
+    }
+};
 
 export default api;
