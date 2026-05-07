@@ -1,6 +1,3 @@
-// Dados iniciais para o site não abrir vazio
-
-import { parse } from "postcss";
 
 let usuarios = [
     { id: 1, nome: "Raphael Lima", email: "raphael@demo.com" },

@@ -54,68 +54,77 @@ function CadastroTarefa({ onTarefaCriada }) {
     };
 
     return (
-        <div className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 mt-10 transition-all hover:shadow-2xl">
+        <div className="bg-white p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 mb-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                 <span className="w-2 h-8 bg-green-500 rounded-full"></span>
                 Nova Tarefa
             </h2>
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                        className="p-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 transition-all"
-                        type="text" name="titulo" placeholder="Título da Tarefa" onChange={handleChange} required
-                    />
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                {/* Título */}
+                <input
+                    className="w-full p-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                    type="text"
+                    name="titulo"
+                    placeholder="Título da Tarefa"
+                    onChange={handleChange}
+                    required
+                />
 
-                    <select
-                        name="usuarioId"
-                        className="p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 transition-all hover:cursor-pointer"
-                        value={tarefa.usuarioId}
-                        onChange={handleChange} required
-                    >
-                        <option value="">Selecione o Responsável</option>
-                        {usuarios && usuarios.map((user) => {
-                            if (user.id) {
-                                return (
-                                    <option key={user.id} value={user.id}>
-                                        {user.nome}
-                                    </option>
-                                );
-                            }
-                            return null;
-                        })}
-                    </select>
-                </div>
+                {/* Responsável */}
+                <select
+                    name="usuarioId"
+                    className="w-full p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 transition-all"
+                    onChange={handleChange}
+                    required
+                >
+                    <option value="">Selecione o Responsável</option>
+                    {usuarios.map(user => (
+                        <option key={user.id} value={user.id}>{user.nome}</option>
+                    ))}
+                </select>
 
+                {/* Descrição */}
                 <textarea
                     name="descricao"
                     className="w-full p-3 rounded-xl border border-gray-200 outline-none focus:ring-2 focus:ring-green-500 transition-all"
-                    placeholder="Descrição detalhada da tarefa..."
+                    placeholder="Descrição detalhada..."
                     rows="3"
                     onChange={handleChange}
                 />
 
-                <div className="flex gap-4">
-                    <select name="prioridade" className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 hover:cursor-pointer" onChange={handleChange}>
-                        <option value="BAIXA">Prioridade: Baixa</option>
-                        <option value="MEDIA">Prioridade: Média</option>
-                        <option value="ALTA">Prioridade: Alta</option>
-                    </select>
+                {/* Rodapé do formulário: Prioridade, Status e Botão */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div className="flex flex-col gap-1">
+                        <label className="text-xs text-gray-400 ml-1">Prioridade</label>
+                        <select
+                            name="prioridade"
+                            className="w-full p-3 rounded-xl border border-gray-200 bg-white"
+                            onChange={handleChange}
+                        >
+                            <option value="BAIXA">Baixa</option>
+                            <option value="MEDIA">Média</option>
+                            <option value="ALTA">Alta</option>
+                        </select>
+                    </div>
 
-                    <select
-                        name="status"
-                        className="flex-1 p-3 rounded-xl border border-gray-200 bg-white outline-none focus:ring-2 focus:ring-green-500 hover:cursor-pointer"
-                        onChange={handleChange}
-                    >
-                        <option value="PENDENTE">Status: Pendente</option>
-                        <option value="EM_ANDAMENTO">Status: Em Andamento</option>
-                        <option value="CONCLUIDA">Status: Concluída</option>
-                    </select>
+                    <div className="flex flex-col gap-1">
+                        <label className="text-xs text-gray-400 ml-1">Status</label>
+                        <select
+                            name="status"
+                            className="w-full p-3 rounded-xl border border-gray-200 bg-white"
+                            onChange={handleChange}
+                        >
+                            <option value="PENDENTE">Pendente</option>
+                            <option value="EM_ANDAMENTO">Em Andamento</option>
+                            <option value="CONCLUIDA">Concluída</option>
+                        </select>
+                    </div>
 
-
+                    {/* Botão agora ocupa a linha inteira no celular e fica alinhado no PC */}
                     <button
                         type="submit"
-                        className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md shadow-green-200 transition-all active:scale-95 hover:cursor-pointer"
+                        className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md transition-all active:scale-95"
                     >
                         Criar Tarefa
                     </button>
@@ -123,6 +132,7 @@ function CadastroTarefa({ onTarefaCriada }) {
             </form>
         </div>
     );
+
 
 }
 
