@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../services/api';
 
 function CadastroTarefa({ onTarefaCriada }) {
-    const [usuarios, setUsuarios] = useState([]); // Para preencher o Select
+    const [usuarios, setUsuarios] = useState([]);
     const [tarefa, setTarefa] = useState({
         titulo: '',
         descricao: '',
@@ -11,7 +11,7 @@ function CadastroTarefa({ onTarefaCriada }) {
         usuarioId: ''
     });
 
-    // Busca os usuários no Back-end assim que a tela carrega
+
     useEffect(() => {
         console.log("Buscando usuários do banco...");
         api.get('/usuarios')
@@ -20,7 +20,7 @@ function CadastroTarefa({ onTarefaCriada }) {
                 setUsuarios(response.data);
             })
             .catch(err => console.error("Erro ao buscar usuários", err));
-    }, []); // O array vazio aqui está certo porque a KEY no App.jsx já cuida do refresh
+    }, []);
 
 
     const handleChange = (e) => {
@@ -121,7 +121,6 @@ function CadastroTarefa({ onTarefaCriada }) {
                         </select>
                     </div>
 
-                    {/* Botão agora ocupa a linha inteira no celular e fica alinhado no PC */}
                     <button
                         type="submit"
                         className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow-md transition-all active:scale-95"
