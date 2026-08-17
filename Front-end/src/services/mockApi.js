@@ -26,7 +26,7 @@ export const mockApi = {
     getTarefas: () => Promise.resolve({ data: tarefas }),
     postTarefa: (novaTarefa, usuarioId) => {
         const dono = usuarios.find(u => u.id === parseInt(usuarioId));
-        const tarefaCompleta = { ...novaTarefa, id: Date.now(), usuario: dono };
+        const tarefaCompleta = { ...novaTarefa, id: Date.now(), usuario: dono, dataCriacao: new Date().toISOString() };
         tarefas.push(tarefaCompleta);
         return Promise.resolve({ data: tarefaCompleta });
     },
